@@ -13,4 +13,5 @@
     <string name="word_is">The word is…</string>
 
     <string name="game_finished">Game has just finished</string>
+    <string name="btn_play_again">Play Again</string>
 </resources>

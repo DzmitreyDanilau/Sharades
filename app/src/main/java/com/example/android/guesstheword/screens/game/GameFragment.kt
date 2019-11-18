@@ -56,6 +56,7 @@ class GameFragment : Fragment() {
         val action = GameFragmentDirections.actionGameToScore()
         action.score = viewModel.score.value ?: 0
         NavHostFragment.findNavController(this).navigate(action)
+        viewModel.onGameFinishedCompleted()
     }
 
     private fun subscribeObservers() {
@@ -64,6 +65,9 @@ class GameFragment : Fragment() {
         })
         viewModel.word.observe(this, Observer {
             binding.wordText.text = it
+        })
+        viewModel.isGameFinished.observe(this, Observer {
+            if(it) gameFinished()
         })
     }
 
