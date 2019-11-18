@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import timber.log.Timber
 
 class GameViewModel : ViewModel() {
-    private var _score = MutableLiveData(0)
+    private var _score = MutableLiveData<Int>()
     val score: LiveData<Int>
         get() = _score
     private var _word = MutableLiveData<String>()
     val word: LiveData<String>
         get() = _word
-    private var _isGameFinished = MutableLiveData<Boolean>(false)
+    private var _isGameFinished = MutableLiveData<Boolean>()
     val isGameFinished: LiveData<Boolean>
         get() = _isGameFinished
     lateinit var wordList: MutableList<String>
@@ -65,28 +65,27 @@ class GameViewModel : ViewModel() {
             //Select and remove a word from the list
             _word.value = wordList.removeAt(0)
         }
-
     }
 
     fun onSkip() {
         if (wordList.isNotEmpty()) {
-            _score.value = (score.value)?.minus(1)
+            _score.value = (_score.value)?.minus(1)
         }
         nextWord()
     }
 
     fun onCorrect() {
         if (wordList.isNotEmpty()) {
-            _score.value = (score.value)?.plus(1)
+            _score.value = (_score.value)?.plus(1)
         }
         nextWord()
     }
 
-    private fun onGameFinished() {
+    fun onGameFinished() {
         _isGameFinished.value = true
     }
 
-    fun onGameFinishedCompleted() {
+    fun onGameFinishComplete() {
         _isGameFinished.value = false
     }
 }

@@ -3,7 +3,6 @@ package com.example.android.guesstheword.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import timber.log.Timber
 
 class ScoreViewModel(private val finalScore: Int) : ViewModel() {
     private var _score = MutableLiveData<Int>()
@@ -15,8 +14,6 @@ class ScoreViewModel(private val finalScore: Int) : ViewModel() {
 
     init {
         _score.value = finalScore
-        _eventPlayAgain.value = false
-        Timber.d("Final score is: $score")
     }
 
     fun onPlayAgain() {

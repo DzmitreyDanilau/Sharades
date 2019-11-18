@@ -27,19 +27,18 @@ class ScoreFragment : Fragment() {
                 .inflate(inflater, R.layout.score_fragment, container, false)
         scoreViewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
         viewModel = ViewModelProviders.of(this, scoreViewModelFactory).get(ScoreViewModel::class.java)
-        binding.scoreText.text = viewModel.score.toString()
-        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
+        binding.scoreViewModel = viewModel
+        binding.lifecycleOwner = this
         subscribeObservers()
         return binding.root
     }
 
     private fun subscribeObservers() {
-        viewModel.score.observe(this, Observer {
-            binding.scoreText.text = it.toString()
-        })
         viewModel.eventPlayAgain.observe(this, Observer {
-            if (it) findNavController().navigate(ScoreFragmentDirections.actionRestart())
-            viewModel.onPlayAgainComplete()
+            if (it){
+                findNavController().navigate(ScoreFragmentDirections.actionRestart())
+                viewModel.onPlayAgainComplete()
+            }
         })
     }
 }
