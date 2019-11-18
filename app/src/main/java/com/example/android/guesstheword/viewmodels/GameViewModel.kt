@@ -1,15 +1,18 @@
 package com.example.android.guesstheword.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import timber.log.Timber
 
 class GameViewModel : ViewModel() {
-    var word = ""
-    var score = 0
+    var word = MutableLiveData<String>()
+    var score = MutableLiveData(0)
     lateinit var wordList: MutableList<String>
 
     init {
         Timber.d("GameViewModel: created!!")
+        word.value = ""
+        score.value = 0
         resetList()
         nextWord()
     }
@@ -50,20 +53,20 @@ class GameViewModel : ViewModel() {
     private fun nextWord() {
         if (wordList.isNotEmpty()) {
             //Select and remove a word from the list
-            word = wordList.removeAt(0)
+            word.value = wordList.removeAt(0)
         }
     }
 
      fun onSkip() {
         if (wordList.isNotEmpty()) {
-            score--
+            score.value = (score.value)?.minus(1)
         }
         nextWord()
     }
 
      fun onCorrect() {
         if (wordList.isNotEmpty()) {
-            score++
+            score.value = (score.value)?.plus(1)
         }
         nextWord()
     }
